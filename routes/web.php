@@ -11,6 +11,18 @@
 |
 */
 
+use App\Models\User;
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('route-starter', function () {
+    $users = factory(User::class, 10)
+        ->make()
+        ->toArray();
+
+        return view('starter', [
+            'users' => $users
+        ]);
 });
