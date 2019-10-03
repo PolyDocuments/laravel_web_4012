@@ -12,17 +12,60 @@
 */
 
 use App\Models\User;
+use Faker\Generator as Faker;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('route-starter', function () {
-    $users = factory(User::class, 10)
-        ->make()
-        ->toArray();
+Route::get('users', function () {
+    $users = User::all()->toArray();
 
-        return view('starter', [
-            'users' => $users
-        ]);
+    return view('starter', [
+        'users' => $users
+    ]);
+})->name('users.index');
+
+Route::view('users/create', 'users/create')->name('users.create');
+
+Route::post('users/store', function (Request $request) {
+    $data = $request->all();
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'birthday' => $data['birthday'],
+        'password' => bcrypt('123456'),
+    ]);
+
+    return redirect()->route('users.index');
+})->name('users.store');
+
+Route::get('users/{id}', function ($id) {
+    $user = User::find($id);
+    dd("Aaaaaa");
+
+    // return view('starter', [
+    //     'users' => $users
+    // ]);
+})->name('users.show');
+
+Route::get('users/update/{id}', function ($id) {
+    $user = User::find($id);
+    // $user->name = 'Tien';
+    // $user->email = 'tien@example.com';
+    // $user->save();
+
+    $user->update([
+        'name' => 'Abc',
+    ]);
+
+    return redirect()->route('users.index');
+});
+
+Route::get('users/delete/{id}', function ($id) {
+    $user = User::find($id);
+    $user->delete();
+
+    return redirect()->route('users.index');
 });
