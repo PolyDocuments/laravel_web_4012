@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()->with('posts')->get();
+        $users = User::with('posts')->get();
     
         return view('starter', [
             'users' => $users->toArray(),
@@ -44,7 +44,7 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'birthday' => $data['birthday'],
-            'password' => bcrypt('123456'),
+            'password' => '123456',
         ]);
     
         return redirect()->route('users.index');

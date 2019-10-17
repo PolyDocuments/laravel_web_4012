@@ -24,14 +24,17 @@ Route::group([
     'as' => 'users.',
 ], function () {
     Route::get('/', 'UserController@index')->name('index');
-    
+
     Route::get('create', 'UserController@create')->name('create');
-    
+
     Route::post('store', 'UserController@store')->name('store');
-    
+
     Route::get('{id}', 'UserController@show')->name('show');
-    
+
     Route::get('update/{id}', 'UserController@update');
-    
+
     Route::get('delete/{id}', 'UserController@destroy');
 });
+
+Route::get('login', 'AuthController@getLoginForm')->name('auth.login_form');
+Route::post('login', 'AuthController@login')->name('auth.login');
