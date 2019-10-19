@@ -17,11 +17,12 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('check_admin_role');
 
 Route::group([
     'prefix' => 'users',
     'as' => 'users.',
+    'middleware' => 'check_admin_role',
 ], function () {
     Route::get('/', 'UserController@index')->name('index');
 
